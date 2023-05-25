@@ -1,0 +1,91 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string>
+
+int main(){
+
+int option1, option2;
+
+typedef struct {
+    char name[50], name2[50], password[20]; password2[20], password3[20];
+    float latitude;
+    float longitude;
+    int capacity;
+    int availableSpots;
+    float pricePerHour;
+} ParkingLot;
+
+    do{
+    printf("Welcome to Spotter!\n");
+    printf("Select the desiverd service:\n",option1);
+    printf("[1] Register\n");
+    printf("[2] Login\n");
+    printf("[3] Find parking spots near me\n");
+    printf("[4]Close app\n");
+    scanf("%d",&option1);
+    fflush (stdin);
+      switch(option1){
+            case 1: 
+                printf("Please, type your name:\n",name);
+                scanf("%c",&name);
+                printf("Define a password:\n",password);
+                scanf("%s",&password);
+                printf("Type your password again:\n",password2);
+                scanf("%s",&password2);     
+                      if(password != password2)
+                         printf("Wrong password!");
+                      else
+                         printf("Registration complete!");
+                break;                
+            case 2:
+                printf("Please, type your name:\n",name2);
+                scanf("%c",&name2);
+                printf("Type your password:\n", password3);
+                scanf("%s",&password3);
+                     if(name2 != name || password2 != password3)
+                         printf("Wrong password or username!");
+                     else 
+                         printf("Login complete!");   
+                break;
+            case 3:
+                 float calculateDistance(float lat1, float lon1, float lat2, float lon2) {
+                 float earthRadius = 6371; // in kilometers
+                 float dLat = (lat2 - lat1) * M_PI / 180.0;
+                 float dLon = (lon2 - lon1) * M_PI / 180.0;
+                 float a = sin(dLat / 2) * sin(dLat / 2) +
+                 cos(lat1 * M_PI / 180.0) * cos(lat2 * M_PI / 180.0) *
+                 sin(dLon / 2) * sin(dLon / 2);
+                 float c = 2 * atan2(sqrt(a), sqrt(1 - a));
+                 float distance = earthRadius * c;
+                return distance;
+                   }
+
+                   void findNearestParkingLot(ParkingLot parkingLots[], int numLots, float userLat, float userLon) {
+                   int nearestLotIndex = -1;
+                   float nearestDistance = INFINITY;
+
+                   for (int i = 0; i < numLots; i++) {
+                   float distance = calculateDistance(userLat, userLon, parkingLots[i].latitude, parkingLots[i].longitude);
+                   if (distance < nearestDistance) {
+                   nearestLotIndex = i;
+                   nearestDistance = distance;
+                   }
+                  }
+
+                  if (nearestLotIndex != -1) {
+                  ParkingLot nearestLot = parkingLots[nearestLotIndex];
+                 printf("Nearest parking lot: %s\n", nearestLot.name);
+                 printf("Distance: %.2f km\n", nearestDistance);
+                 printf("Available spots: %d\n", nearestLot.availableSpots);
+                 printf("Price per hour: $%.2f\n", nearestLot.pricePerHour);
+                 } else {
+                         printf("No parking lots found.\n");
+                 }
+}
+                 case 4: printf("Closing application");       
+                         break;
+                 default: printf("\n Invalid option!");
+}while(option1!=4);  
+        } 
+
+ 
